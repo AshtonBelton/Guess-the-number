@@ -1,0 +1,66 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #1e1e2f;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.game {
+  text-align: center;
+}
+
+input {
+  font-size: 1.2rem;
+  padding: 12px;
+  width: 140px;
+  border: none;
+  border-radius: 8px;
+  text-align: center;
+}
+
+button {
+  font-size: 1.2rem;
+  padding: 12px 24px;
+  margin: 0 6px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #4f8cff;
+  color: white;
+  transition: transform 0.1s;
+}
+
+button:hover {
+  background: #3a74e0;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+button:disabled {
+  background: #555;
+  cursor: not-allowed;
+}
+
+#new-game-btn {
+  background: #666;
+  margin-top: 10px;
+}
+
+#feedback {
+  font-size: 1.5rem;
+  height: 2rem; /* stops the layout jumping when text appears */
+  margin: 20px 0 10px;
+}
+
+/* Colors for the different kinds of feedback */
+#feedback.low   { color: #4f8cff; }
+#feedback.high  { color: #f5a623; }
+#feedback.win   { color: #2ecc71; }
+#feedback.error { color: #ff6b6b; }
+
