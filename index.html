@@ -9,7 +9,14 @@
 <body>
     <div id="gmae">
         <h1>Guess the Number</h1>
-        <p>I'm thinking of a number between 1 and 100</p>
+        
+         <div id="difficulty">
+            <button class="difficulty-btn" data-max="50">Easy</button>
+            <button class="difficulty-btn active" data-max="100">Medium</button>
+            <button class="difficulty-btn" data-max="500">Hard</button>
+        </div>
+
+        <p id="range-text"></p>
 
         <input type="number" id="guess-input" placeholder="Your guess">
         <button id="guess-btn">Guess</button>

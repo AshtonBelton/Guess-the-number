@@ -4,14 +4,16 @@ const guessBtn = document.getElementById("guess-btn");
 const feedback = document.getElementById("feedback");
 const attemptsDisplay = document.getElementById("attempts");
 const newGameBtn = document.getElementById("new-game-btn");
+const rangeText = document.getElementById("range-text");
+const difficultyBtns = document.querySelectorAll(".difficulty-btn");
 
 // 2. Game settings
 const MIN_NUMBER = 1;
-const MAX_NUMBER = 100;
+let maxNumber = 100; // now a let, because difficulty can change it
 
-// 3. Pick a random whole number between MIN_NUMBER and MAX_NUMBER
+// 3. Pick a random whole number between MIN_NUMBER and maxNumber
 function pickSecretNumber() {
-  return Math.floor(Math.random() * (MAX_NUMBER - MIN_NUMBER + 1)) + MIN_NUMBER;
+  return Math.floor(Math.random() * (maxNumber - MIN_NUMBER + 1)) + MIN_NUMBER;
 }
 
 // 4. Keep track of the game's state
@@ -19,28 +21,32 @@ let secretNumber = pickSecretNumber();
 let attempts = 0;
 let gameOver = false;
 
-// 5. Show a message in a given style ("low", "high", "win" or "error")
+// 5. Update what the player sees
 function showFeedback(text, type) {
   feedback.textContent = text;
   feedback.className = type;
 }
 
+function updateRangeText() {
+  rangeText.textContent =
+    "I'm thinking of a number between " + MIN_NUMBER + " and " + maxNumber + ".";
+}
+
 // 6. Check the player's guess
 function checkGuess() {
   if (gameOver) {
-    return; // the game has ended, so ignore any more guesses
+    return;
   }
 
   const guess = Number(guessInput.value);
 
-  // Make sure the input is valid before counting it
   if (
     guessInput.value === "" ||
     !Number.isInteger(guess) ||
     guess < MIN_NUMBER ||
-    guess > MAX_NUMBER
+    guess > maxNumber
   ) {
-    showFeedback("Enter a whole number from " + MIN_NUMBER + " to " + MAX_NUMBER + ".", "error");
+    showFeedback("Enter a whole number from " + MIN_NUMBER + " to " + maxNumber + ".", "error");
     return;
   }
 
@@ -61,7 +67,7 @@ function checkGuess() {
   guessInput.focus();
 }
 
-// 7. Start a fresh game
+// 7. Start a fresh game (keeps the current difficulty)
 function newGame() {
   secretNumber = pickSecretNumber();
   attempts = 0;
@@ -69,17 +75,39 @@ function newGame() {
   guessBtn.disabled = false;
   attemptsDisplay.textContent = "Attempts: 0";
   showFeedback("", "");
+  updateRangeText();
   guessInput.value = "";
   guessInput.focus();
 }
 
-// 8. React to player actions
+// 8. Change the difficulty
+function setDifficulty(clickedBtn) {
+  maxNumber = Number(clickedBtn.dataset.max);
+
+  // Highlight only the button that was clicked
+  difficultyBtns.forEach(function (btn) {
+    btn.classList.remove("active");
+  });
+  clickedBtn.classList.add("active");
+
+  newGame(); // the old secret number might be out of range now
+}
+
+// 9. React to player actions
 guessBtn.addEventListener("click", checkGuess);
 newGameBtn.addEventListener("click", newGame);
 
-// Let the player press Enter instead of clicking the button
 guessInput.addEventListener("keydown", function (event) {
   if (event.key === "Enter") {
     checkGuess();
   }
 });
+
+difficultyBtns.forEach(function (btn) {
+  btn.addEventListener("click", function () {
+    setDifficulty(btn);
+  });
+});
+
+// 10. Draw the starting screen
+updateRangeText();

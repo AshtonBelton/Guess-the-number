@@ -64,3 +64,21 @@ button:disabled {
 #feedback.win   { color: #2ecc71; }
 #feedback.error { color: #ff6b6b; }
 
+#difficulty {
+  margin: 20px 0;
+}
+
+.difficulty-btn {
+  font-size: 1rem;
+  padding: 8px 16px;
+  background: #444;
+}
+
+.difficulty-btn:hover {
+  background: #555;
+}
+
+/* The currently selected difficulty (must come after :hover) */
+.difficulty-btn.active {
+  background: #4f8cff;
+}
